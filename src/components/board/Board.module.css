@@ -1,0 +1,34 @@
+.board {
+    height: fit-content;
+    width: 300px;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+
+.board_header {
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.board_item {
+    border-radius: var(--board-item-radius);
+    padding: var(--board-item-padding);
+    margin-bottom: var(--board-item-margin);
+}
+
+.add_item {
+    display: flex;
+    border-radius: var(--board-item-radius);
+    padding: var(--board-item-padding);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--gray);
+    color: black
+}

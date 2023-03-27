@@ -1,0 +1,10 @@
+.add_board_button_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--board-width);
+    height: 80px;
+    padding: 20px;
+    background-color: var(--gray);
+    border-radius: 10px;
+}

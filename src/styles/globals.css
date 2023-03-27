@@ -1,0 +1,13 @@
+:root {
+    --board-width: 300px;
+    --board-item-radius: 10px;
+    --board-item-padding: 25px;
+    --board-item-margin: 10px;
+    --gray: #cccccc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

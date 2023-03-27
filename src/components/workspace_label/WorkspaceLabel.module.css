@@ -1,0 +1,15 @@
+.label {
+    display: flex;
+    margin-top: -40px;
+    padding-left: 50px;
+}
+
+.label_item {
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 10px 10px 0 0;
+    padding-inline: 15px;
+    padding-top: 10px;
+}
