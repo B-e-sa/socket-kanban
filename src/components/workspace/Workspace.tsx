@@ -23,7 +23,6 @@ const Workspace = () => {
     const [workspace, setWorkspace] = useState<IWorkspace>();
 
     const { allWorkspaces, currentWorkspace } = useAppSelector(state => state.reducer);
-    const dispatch = useAppDispatch();
 
     useEffect(() => {
 
@@ -42,7 +41,7 @@ const Workspace = () => {
                 {workspace?.boards.map(board => {
                     return <Board key={board.title} {...board} />;
                 })}
-                <AddBoard />
+                <AddBoard workspaceId={workspace?.id} />
             </div>
         </div>
     )

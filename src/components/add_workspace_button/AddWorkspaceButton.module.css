@@ -1,0 +1,11 @@
+.add_workspace_button {
+    margin-right: var(--label-item-margin-right);
+    padding-inline: 25px;
+    border-radius: var(--label-item-border-radius);
+    height: var(--label-item-height);
+    display: var(--label-item-display);
+    justify-content: center;
+    align-items: center;
+    cursor: var(--label-item-cursor);
+    border: none;
+}

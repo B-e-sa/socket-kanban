@@ -1,6 +1,7 @@
 import style from '@/components/workspace_label/WorkspaceLabel.module.css';
 import { setCurrentWorkspace } from '@/redux/features/workspaceSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
+import AddWorkspaceButton from '../add_workspace_button/AddWorkspaceButton';
 
 const WorkspaceLabel = () => {
 
@@ -19,12 +20,13 @@ const WorkspaceLabel = () => {
             }}
             onClick={() => dispatch(setCurrentWorkspace(space.id))}
             className={style.label_item}
-            key={space.name}
+            key={space.id}
           >
             {space.name}
           </div>
         )
       })}
+      <AddWorkspaceButton />
     </div>
   )
 }

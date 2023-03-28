@@ -2,7 +2,14 @@
     --board-width: 300px;
     --board-item-radius: 10px;
     --board-item-padding: 25px;
-    --board-item-margin: 10px;
+    --board-item-margin-bottom: 10px;
+
+    --label-item-margin-right: 10px;
+    --label-item-padding-inline: 15px;
+    --label-item-border-radius: 10px 10px 0 0;
+    --label-item-height: 40px;
+    --label-item-display: flex;
+    --label-item-cursor: pointer;
     --gray: #cccccc;
 }
 

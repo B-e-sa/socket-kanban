@@ -1,13 +1,18 @@
 import React from 'react'
 import style from '@/components/add_board_button/AddBoardButton.module.css'
+import { useAppDispatch } from '@/redux/hooks/hooks';
+import { addBoard } from '@/redux/features/workspaceSlice';
 
-const AddBoard = () => {
+const AddBoard = ({ workspaceId }: { workspaceId: number | undefined }) => {
+
+    const dispatch = useAppDispatch();
+
     return (
-        <div className={style.add_board_button_header}>
+        <button onClick={() => dispatch(addBoard(workspaceId))} className={style.add_board_button}>
             <div style={{ display: "flex" }}>
                 <span>+</span>
             </div>
-        </div>
+        </button>
     )
 }
 

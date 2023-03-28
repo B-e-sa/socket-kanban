@@ -19,7 +19,7 @@
 .board_item {
     border-radius: var(--board-item-radius);
     padding: var(--board-item-padding);
-    margin-bottom: var(--board-item-margin);
+    margin-bottom: var(--board-item-margin-bottom);
 }
 
 .add_item {

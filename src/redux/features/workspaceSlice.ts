@@ -1,89 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 const allWorkspaces = [
 	{
 		id: 1,
-		name: "First workspace",
+		name: "First Workspace",
 		boards: [
 			{
 				id: 1,
-				title: "TODO",
+				title: "Todo!",
 				contents: [
 					{
 						id: 1,
 						content: "First todo"
-					},
-					{
-						id: 2,
-						content: "fodase"
-					}
-				],
-				bgColor: "#565AD7"
-			},
-			{
-				id: 2,
-				title: "DOING",
-				contents: [
-					{
-						id: 1,
-						content: "Doing"
-					}
-				],
-				bgColor: "#565AD7"
-			},
-			{
-				id: 3,
-				title: "DONE",
-				contents: [
-					{
-						id: 1,
-						content: "Done"
-					}
-				],
-				bgColor: "#565AD7"
-			}
-		]
-	},
-	{
-		id: 2,
-		name: "Second workspace",
-		boards: [
-			{
-				id: 1,
-				title: "TODO",
-				contents: [
-					{
-						id: 1,
-						content: "second todo"
-					}
-				],
-				bgColor: "#565AD7"
-			},
-			{
-				id: 2,
-				title: "DOING",
-				contents: [
-					{
-						id: 1,
-						content: "Doing"
-					}
-				],
-				bgColor: "#565AD7"
-			},
-			{
-				id: 3,
-				title: "DONE",
-				contents: [
-					{
-						id: 1,
-						content: "Done"
 					}
 				],
 				bgColor: "#565AD7"
 			}
 		]
 	}
-]
+];
 
 const counterSlice = createSlice({
 	name: 'workspaces',
@@ -91,12 +26,37 @@ const counterSlice = createSlice({
 	reducers: {
 		setCurrentWorkspace(state, { payload }) {
 			state.currentWorkspace = payload
+		},
+		addWorkspace(state) {
+			const workspace = {
+				id: Math.random() + Math.random(),
+				name: "New Workspace",
+				boards: []
+			}
+			state.allWorkspaces.push(workspace)
+		},
+		addBoard(state, { payload }) {
+			const workspaceIndex =
+				current(state.allWorkspaces).findIndex(workspace => {
+					return workspace.id === state.currentWorkspace
+				})
+			state.allWorkspaces[workspaceIndex].boards.push({
+				id: 1,
+				title: 'New board',
+				bgColor: '#565AD7',
+				contents: [{
+					id: Math.random() + Math.random(),
+					content: "new"
+				}]
+			})
 		}
 	}
 });
 
 export const {
-	setCurrentWorkspace
+	setCurrentWorkspace,
+	addBoard,
+	addWorkspace
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
