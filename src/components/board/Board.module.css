@@ -1,11 +1,10 @@
 .board {
     height: fit-content;
-    width: 300px;
+    min-width: 300px;
     border-radius: 10px;
     margin-right: 10px;
     color: white;
 }
-
 
 .board_header {
     border-radius: 10px 10px 0 0;
@@ -27,6 +26,7 @@
     border-radius: var(--board-item-radius);
     padding: var(--board-item-padding);
     justify-content: center;
+    min-width: var(--board-item-min-width);
     align-items: center;
     width: 100%;
     background-color: var(--gray);

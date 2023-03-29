@@ -7,6 +7,7 @@ import style from '@/components/workspace/Workspace.module.css';
 interface IWorkspace {
     id: number;
     name: string;
+    bgColor: string;
     boards: {
         id: number;
         title: string;
@@ -14,7 +15,6 @@ interface IWorkspace {
             id: number;
             content: string;
         }[];
-        bgColor: string;
     }[];
 }
 
@@ -31,7 +31,6 @@ const Workspace = () => {
         }))
 
     }, [allWorkspaces, currentWorkspace])
-
     return (
         <div className={style.workspace}>
             <h1 style={{ marginBottom: 20 }}>
@@ -39,7 +38,17 @@ const Workspace = () => {
             </h1>
             <div style={{ display: "flex" }}>
                 {workspace?.boards.map(board => {
-                    return <Board key={board.title} {...board} />;
+
+                    const boardProps = {
+                        ...board,
+                        bgColor: workspace.bgColor,
+                        workspaceId: workspace.id
+                    }
+
+                    return <Board
+                        key={board.id}
+                        boardProps={boardProps}
+                    />;
                 })}
                 <AddBoard workspaceId={workspace?.id} />
             </div>

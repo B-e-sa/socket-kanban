@@ -2,34 +2,40 @@ import React from 'react'
 import style from '@/components/board/Board.module.css'
 import { Inter } from 'next/font/google'
 import AddBoard from '../add_board_button/AddBoardButton'
+import { useAppDispatch } from '@/redux/hooks/hooks'
+import { addContent } from '@/redux/features/workspaceSlice'
 
-interface IBoard {
-    bgColor: string
-    title: string
-    contents: {
-        id: number;
-        content: string;
-    }[]
+interface IBoardProps {
+    boardProps: {
+        title: string,
+        contents: any,
+        id: number,
+        bgColor: string,
+        workspaceId: number
+    }
 }
 
-const Board = ({ title, bgColor, contents }: IBoard) => {
+const Board = ({ boardProps }: IBoardProps, color: any) => {
+
+    const { title, contents, id, bgColor, workspaceId } = boardProps;
+
+    const dispatch = useAppDispatch()
+
     return (
         <div
             className={style.board}
-            style={{
-                backgroundColor: bgColor + "27"
-            }}
+            style={{ backgroundColor: bgColor + "27" }}
         >
             <div
                 className={style.board_header}
-                style={{
-                    backgroundColor: bgColor
-                }}
+                style={{ backgroundColor: bgColor }}
             >
-                <h3 className={style.title}>{title}</h3>
+                <h3 className={style.title}>
+                    {title}
+                </h3>
             </div>
             <div>
-                {contents.map(content => {
+                {contents.map((content: any) => {
                     return (
                         <div
                             style={{ backgroundColor: bgColor + "ac" }}
@@ -40,7 +46,10 @@ const Board = ({ title, bgColor, contents }: IBoard) => {
                         </div>
                     )
                 })}
-                <span className={style.add_item}>
+                <span
+                    onClick={() => dispatch(addContent({ workspaceId: workspaceId, boardId: id  }))}
+                    className={style.add_item}
+                >
                     +
                 </span>
             </div>
