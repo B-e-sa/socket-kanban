@@ -13,6 +13,10 @@
     --gray: #cccccc;
 }
 
+body {
+    overflow-y: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
