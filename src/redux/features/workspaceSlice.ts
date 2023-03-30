@@ -119,6 +119,8 @@ const counterSlice = createSlice({
 
 			const { pickedBoxIndex, targetBoxIndex } = payload;
 
+			console.log(pickedBoxIndex)
+
 			const workspaceBoard = findWorkspaceBoard(
 				current(state.allWorkspaces),
 				state.currentWorkspace,
