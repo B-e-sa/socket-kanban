@@ -1,0 +1,13 @@
+.text_area {
+    display: flex;
+    background-color: transparent;
+    border: none;
+    resize: none;
+    font-size: 15pt;
+    color: white;
+    overflow: hidden;
+}
+
+.text_area:focus {
+    outline: none;
+}

@@ -1,4 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
+import { findWorkspaceBoard } from '@/utils/findWorkspaceBoard';
 
 const allWorkspaces = [
 	{
@@ -12,7 +13,9 @@ const allWorkspaces = [
 				contents: [
 					{
 						id: 1,
-						content: "First todo"
+						content: "First todo",
+						assigned: [],
+						tags: []
 					}
 				]
 			}
@@ -22,59 +25,69 @@ const allWorkspaces = [
 
 const counterSlice = createSlice({
 	name: 'workspaces',
-	initialState: { allWorkspaces, currentWorkspace: 1 },
+	initialState: {
+		allWorkspaces,
+		currentWorkspace: 1,
+		lastWorkspaceId: 1,
+		lastBoardId: 1,
+		lastContentId: 1,
+	},
 	reducers: {
 		setCurrentWorkspace(state, { payload }) {
 			state.currentWorkspace = payload
 		},
 		addWorkspace(state) {
+
+			state.lastWorkspaceId++
+
 			const workspace = {
-				id: Math.random() + Math.random(),
+				id: state.lastWorkspaceId,
 				name: "New Workspace",
 				bgColor: "#565AD7",
 				boards: []
 			}
+
 			state.allWorkspaces.push(workspace)
+
 		},
-		addBoard(state, { payload }) {
+		addBoard(state) {
 
-			// search for the workspace index that the board is being added
-			const workspaceIndex = current(state.allWorkspaces)
-				.findIndex(workspace => {
-					return workspace.id === state.currentWorkspace
-				})
+			const workspaceBoard = findWorkspaceBoard(
+				current(state.allWorkspaces),
+				state.currentWorkspace,
+				state.allWorkspaces
+			)
 
-			// finding the workspace on the store state
-			const workspace = state.allWorkspaces[workspaceIndex];
-
-			const workspaceBoards = workspace.boards;
-
-			// finding the last board to pick the id
-			const lastBoard = workspaceBoards[workspaceBoards.length - 1]
+			state.lastBoardId++
+			state.lastContentId++
 
 			// finding the last content to pick the id
-			const content = lastBoard?.contents[lastBoard.contents.length - 1]
+			if (state.lastBoardId !== 1) {
 
-			// pushing the board and changing the state
-			if (content) {
-				workspace.boards.push({
-					id: lastBoard.id + 1,
+				workspaceBoard.push({
+					id: state.lastBoardId,
 					title: 'New board',
 					contents: [{
-						id: content.id + 1,
-						content: "new"
+						id: state.lastContentId,
+						content: "new",
+						assigned: [],
+						tags: []
 					}]
 				})
+
 				return;
+
 			}
 
-			workspace.boards.push({
+			workspaceBoard.push({
 				id: 1,
 				title: "New board",
 				contents: [
 					{
-						id: 1,
-						content: "New"
+						id: state.lastContentId,
+						content: "New",
+						assigned: [],
+						tags: []
 					}
 				]
 			})
@@ -82,25 +95,40 @@ const counterSlice = createSlice({
 		},
 		addContent(state, { payload }) {
 
-			const workspaceIndex = current(state.allWorkspaces)
-				.findIndex(workspace => {
-					return workspace.id === payload.workspaceId
-				})
+			const workspaceBoard = findWorkspaceBoard(
+				current(state.allWorkspaces),
+				state.currentWorkspace,
+				state.allWorkspaces
+			);
 
-			const workspace = state.allWorkspaces[workspaceIndex];
-
-			const workspaceBoards = workspace.boards;
-
-			const boardIndex = workspaceBoards.findIndex(board => {
-				return board.id === payload.boardId
+			const boardIndex = workspaceBoard.findIndex(board => {
+				return board.id === payload.boardId;
 			})
 
-			const boardContents = workspace.boards[boardIndex].contents
+			state.lastContentId++;
 
-			boardContents.push({
-				id: boardContents[boardContents.length - 1].id + 1,
-				content: "new"
+			workspaceBoard[boardIndex].contents.push({
+				id: state.lastContentId,
+				content: "new",
+				assigned: [],
+				tags: []
 			})
+
+		},
+		switchBoards(state, { payload }) {
+
+			const { pickedBoxIndex, targetBoxIndex } = payload;
+
+			const workspaceBoard = findWorkspaceBoard(
+				current(state.allWorkspaces),
+				state.currentWorkspace,
+				state.allWorkspaces
+			)
+
+			const switchHandler = workspaceBoard[pickedBoxIndex]
+
+			workspaceBoard[pickedBoxIndex] = workspaceBoard[targetBoxIndex];
+			workspaceBoard[targetBoxIndex] = switchHandler;
 
 		}
 	}
@@ -110,7 +138,8 @@ export const {
 	setCurrentWorkspace,
 	addBoard,
 	addWorkspace,
-	addContent
+	addContent,
+	switchBoards
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

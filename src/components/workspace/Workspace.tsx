@@ -1,6 +1,6 @@
 import AddBoard from '@/components/add_board_button/AddBoardButton';
 import Board from '@/components/board/Board';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
+import { useAppSelector } from '@/redux/hooks/hooks';
 import { useState, useEffect } from "react";
 import style from '@/components/workspace/Workspace.module.css';
 
@@ -14,6 +14,8 @@ interface IWorkspace {
         contents: {
             id: number;
             content: string;
+            assigned: any;
+            tags: any
         }[];
     }[];
 }
@@ -31,16 +33,18 @@ const Workspace = () => {
         }))
 
     }, [allWorkspaces, currentWorkspace])
+
     return (
         <div className={style.workspace}>
             <h1 style={{ marginBottom: 20 }}>
                 {workspace?.name}
             </h1>
             <div style={{ display: "flex" }}>
-                {workspace?.boards.map(board => {
+                {workspace?.boards.map((board, index) => {
 
                     const boardProps = {
                         ...board,
+                        index,
                         bgColor: workspace.bgColor,
                         workspaceId: workspace.id
                     }
@@ -49,6 +53,7 @@ const Workspace = () => {
                         key={board.id}
                         boardProps={boardProps}
                     />;
+                    
                 })}
                 <AddBoard workspaceId={workspace?.id} />
             </div>
