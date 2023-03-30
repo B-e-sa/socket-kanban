@@ -21,7 +21,7 @@ interface IBoardProps {
 
 const Board = ({ boardProps }: IBoardProps) => {
 
-    const [_dragging, setDragging] = useState(false);
+    const [dragging, setDragging] = useState(false);
 
     const dispatch = useAppDispatch();
 
@@ -44,12 +44,18 @@ const Board = ({ boardProps }: IBoardProps) => {
         e.dataTransfer.setData("text/plain", index.toString());
     }
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetBoxIndex: number) => {
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetBox: any) => {
+
         e.preventDefault();
 
-        const pickedBoxIndex = e.dataTransfer.getData("text/plain");
+        const { targetBoxIndex, id } = targetBox;
 
-        dispatch(switchBoards({ pickedBoxIndex, targetBoxIndex }))
+        if (targetBoxIndex + 1 && id) {
+
+            const pickedBoxIndex = e.dataTransfer.getData("text/plain");
+
+            dispatch(switchBoards({ pickedBoxIndex, targetBoxIndex }))
+        }
 
     }
 
@@ -69,7 +75,7 @@ const Board = ({ boardProps }: IBoardProps) => {
             onDragStart={(e) => handleDragStart(e, index)}
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
-            onDrop={(e) => handleDrop(e, index)}
+            onDrop={(e) => handleDrop(e, { targetBoxIndex: index, id: id })}
             draggable
         >
             <div
