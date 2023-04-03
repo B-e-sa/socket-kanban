@@ -8,7 +8,7 @@
 }
 
 .board_header {
-    border-radius: 10px;
+    border-radius: 0 10px 0 10px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,12 +16,6 @@
     margin-bottom: 15px;
     position: sticky;
     top: 0;
-}
-
-.board_item {
-    border-radius: var(--board-item-radius);
-    padding: var(--board-item-padding);
-    margin-bottom: var(--board-item-margin-bottom);
 }
 
 .add_item {

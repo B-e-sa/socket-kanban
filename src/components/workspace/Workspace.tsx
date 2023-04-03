@@ -46,7 +46,7 @@ const Workspace = () => {
                         ...board,
                         index,
                         bgColor: workspace.bgColor,
-                        workspaceId: workspace.id
+                        boardIndex: index
                     }
 
                     return <Board

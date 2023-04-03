@@ -3,6 +3,8 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Inter } from 'next/font/google';
 import { Provider } from "react-redux";
+import { DndProvider } from 'react-dnd/dist/core';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const inter = Inter({
   weight: "300",
@@ -19,9 +21,11 @@ export default function App({ Component, pageProps }: AppProps) {
         }
         `}
       </style>
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
+      <DndProvider backend={HTML5Backend} >
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </DndProvider>
     </>
   )
 }

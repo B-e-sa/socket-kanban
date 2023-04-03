@@ -1,0 +1,4 @@
+.board_item {
+    padding: var(--board-item-padding);
+    margin-bottom: var(--board-item-margin-bottom);
+}
