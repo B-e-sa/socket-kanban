@@ -1,3 +1,4 @@
+import getCurrentBoards from '@/utils/getCurrentBoards';
 import { createSlice, current } from '@reduxjs/toolkit';
 
 const allWorkspaces = [
@@ -26,14 +27,14 @@ const counterSlice = createSlice({
 	name: 'workspaces',
 	initialState: {
 		allWorkspaces,
-		currentWorkspace: 1,
+		currentWorkspaceId: 1,
 		lastWorkspaceId: 1,
 		lastBoardId: 1,
 		lastContentId: 1,
 	},
 	reducers: {
 		setCurrentWorkspace(state, { payload }) {
-			state.currentWorkspace = payload
+			state.currentWorkspaceId = payload
 		},
 		addWorkspace(state) {
 
@@ -44,22 +45,34 @@ const counterSlice = createSlice({
 				name: "New Workspace",
 				bgColor: "#565AD7",
 				boards: []
-			}
+			};
 
-			state.allWorkspaces.push(workspace)
+			state.allWorkspaces.push(workspace);
 
 		},
-		changeBoardName() {
+		changeBoardName(state, { payload }) {
+
+			const boards = getCurrentBoards(
+				state.allWorkspaces,
+				state.currentWorkspaceId
+			)
+
+			const board = boards.find(board => board.id === payload.boardId);
+
+			board!.title = payload.title;
+
 
 		},
 		changeContentName(state, { payload }) {
 
-			const workspace =
-				state.allWorkspaces[current(state).currentWorkspace - 1].boards
+			const { boardIndex, index, text } = payload;
 
-			workspace[payload.boardIndex].contents[payload.index].content = payload.text
+			const workspaceBoards = getCurrentBoards(
+				state.allWorkspaces,
+				state.currentWorkspaceId
+			);
 
-			console.log(current(workspace)[payload.boardIndex].contents[payload.index].content)
+			workspaceBoards[boardIndex].contents[index].content = text
 
 		},
 		changeWorkspaceName() {
@@ -67,15 +80,17 @@ const counterSlice = createSlice({
 		},
 		addBoard(state) {
 
-			const workspace =
-				state.allWorkspaces[current(state).currentWorkspace - 1].boards
+			const workspaceBoards = getCurrentBoards(
+				state.allWorkspaces,
+				state.currentWorkspaceId
+			)
 
 			state.lastBoardId++
 			state.lastContentId++
 
 			if (state.lastBoardId !== 1) {
 
-				workspace.push({
+				workspaceBoards.push({
 					id: state.lastBoardId,
 					title: 'New board',
 					contents: [{
@@ -90,7 +105,7 @@ const counterSlice = createSlice({
 
 			}
 
-			workspace.push({
+			workspaceBoards.push({
 				id: 1,
 				title: "New board",
 				contents: [
@@ -106,16 +121,18 @@ const counterSlice = createSlice({
 		},
 		addContent(state, { payload }) {
 
-			const workspace =
-				state.allWorkspaces[current(state).currentWorkspace - 1].boards
+			const workspaceBoards = getCurrentBoards(
+				state.allWorkspaces,
+				state.currentWorkspaceId
+			)
 
-			const boardIndex = workspace.findIndex(board => {
+			const boardIndex = workspaceBoards.findIndex(board => {
 				return board.id === payload.boardId;
 			})
 
 			state.lastContentId++;
 
-			workspace[boardIndex].contents.push({
+			workspaceBoards[boardIndex].contents.push({
 				id: state.lastContentId,
 				content: "new",
 				assigned: [],

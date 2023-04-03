@@ -1,7 +1,8 @@
 import style from '@/components/board/Board.module.css'
-import { addContent } from '@/redux/features/workspaceSlice'
+import { addContent, changeBoardName } from '@/redux/features/workspaceSlice'
 import { useAppDispatch } from '@/redux/hooks/hooks'
 import Content from '../content/Content'
+import React, { useEffect, useState } from 'react'
 
 interface IProps {
     boardProps: {
@@ -22,8 +23,6 @@ interface IProps {
 
 const Board = ({ boardProps }: IProps) => {
 
-    const dispatch = useAppDispatch();
-
     const {
         title,
         contents,
@@ -33,6 +32,8 @@ const Board = ({ boardProps }: IProps) => {
         workspaceId,
     } = boardProps;
 
+    const dispatch = useAppDispatch();
+
     const handleAddItem = () => {
         dispatch(
             addContent({
@@ -41,7 +42,16 @@ const Board = ({ boardProps }: IProps) => {
             })
         );
     }
-    
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            changeBoardName({
+                boardId: id,
+                title: e.target.value
+            })
+        )
+    }
+
     return (
         <div
             className={style.board}
@@ -51,9 +61,13 @@ const Board = ({ boardProps }: IProps) => {
                 className={style.board_header}
                 style={{ backgroundColor: bgColor, }}
             >
-                <h3 className={style.title}>
-                    {title}
-                </h3>
+                <input
+                    onChange={(e) => handleTitleChange(e)}
+                    className={style.title}
+                    type='text'
+                    defaultValue={title}
+                    className={style.title}
+                />
             </div>
             <div>
                 {contents?.map((content, index) => {

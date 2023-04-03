@@ -3,6 +3,7 @@ import Board from '@/components/board/Board';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { useState, useEffect } from "react";
 import style from '@/components/workspace/Workspace.module.css';
+import getCurrentWorkspace from '@/utils/getCurrentWorkspace';
 
 interface IWorkspace {
     id: number;
@@ -24,15 +25,18 @@ const Workspace = () => {
 
     const [workspace, setWorkspace] = useState<IWorkspace>();
 
-    const { allWorkspaces, currentWorkspace } = useAppSelector(state => state.reducer);
+    const { allWorkspaces, currentWorkspaceId } = useAppSelector(state => state.reducer);
 
     useEffect(() => {
 
-        setWorkspace(allWorkspaces.find(workspace => {
-            return workspace.id === currentWorkspace
-        }))
+        setWorkspace(
+            getCurrentWorkspace(
+                allWorkspaces,
+                currentWorkspaceId
+            )
+        )
 
-    }, [allWorkspaces, currentWorkspace])
+    }, [allWorkspaces, currentWorkspaceId])
 
     return (
         <div className={style.workspace}>
@@ -53,7 +57,7 @@ const Workspace = () => {
                         key={board.id}
                         boardProps={boardProps}
                     />;
-                    
+
                 })}
                 <AddBoard workspaceId={workspace?.id} />
             </div>

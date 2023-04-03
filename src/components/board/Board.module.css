@@ -18,6 +18,18 @@
     top: 0;
 }
 
+.title {
+    background-color: transparent;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 15pt;
+}
+
+.title:focus {
+    outline: none;
+}
+
 .add_item {
     display: flex;
     border-radius: var(--board-item-radius);
